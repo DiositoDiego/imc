@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
 
 export default function FormScreen(props) {
+    const Navigator = useNavigation()
     const { rol } = props
     let edad = 0.0
     let peso = 0.0
@@ -13,16 +15,17 @@ export default function FormScreen(props) {
       <View>
         <Text style={{...styles.text, marginBottom: 30}}>Rol: {rol}</Text>
         <Text style={styles.text}>Peso:</Text>
-        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  edad = text}/>
+        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  {edad = parseFloat(text); console.log(edad)}}/>
         <Text style={styles.text}>Altura:</Text>
-        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  peso = text}/>
+        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  {peso = parseFloat(text); console.log(peso)}}/>
         <Text style={styles.text}>Edad:</Text>
-        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  altura = text}/>
+        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(text) =>  {altura = parseFloat(text); console.log(altura)}}/>
       </View>
       <View>
         <Button style={styles.button} title="IMC" onPress={() => {
-            imc = peso / (altura * altura)
-            alert(`IMC: ${imc}`)
+            imc = (peso / Math.pow(altura / 100,2)).toFixed(2);
+            console.log(`IMC: ${imc}`)
+            navigator.navigate('Details', {imc: imc})
         }}/>
       </View>
     </View>
